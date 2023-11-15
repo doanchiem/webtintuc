@@ -10,13 +10,15 @@
       foreach ($list as $key) { ?>
         <li>
           <div class="card_">
-            <img class="food" src=<?php echo $key["img"] ?> alt="" />
+            <img class="anh1" src=<?php echo $key["img"] ?> alt="" />
             <div class='titel'>
-              <b> <?php echo $key["title"] ?>
-              </b>
+              <b>
+               <?php echo $key["title"] ?></b>
+              
             </div>
           </div>
-          <span class="text-white content"><?php echo $key["content"] ?></span>
+          <div class="text-white content"> <?php echo $key["content"] ?></div>
+        
         </li>
       <?php
       };

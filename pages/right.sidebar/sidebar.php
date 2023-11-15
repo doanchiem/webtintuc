@@ -9,7 +9,7 @@
           <div class='titel'> <b><?php echo $key["title"] ?>
             </b></div>
         </div>
-        <span class="text-white content"><?php echo $key["content"] ?></span>
+        <div class="text-white content"><?php echo $key["content"] ?></div>
       </li>
     <?php
     };
