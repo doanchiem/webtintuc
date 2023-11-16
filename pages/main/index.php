@@ -9,16 +9,17 @@
       $list = getListPostType(14);
       foreach ($list as $key) { ?>
         <li>
-          <div class="card_">
-            <img class="anh1" src=<?php echo $key["img"] ?> alt="" />
-            <div class='titel'>
-              <b>
-               <?php echo $key["title"] ?></b>
-              
+          <a class="text-white " style="color: white;" href=<?php echo 'index.php?main=trainghiemcanhan&postsId=' . $key['ID_baiviet'] ?>>
+            <div class="card_">
+              <img class="anh1" src=<?php echo $key["img"] ?> alt="" />
+              <div class='titel'>
+                <b>
+                  <?php echo $key["title"] ?></b>
+
+              </div>
             </div>
-          </div>
-          <div class="text-white content"> <?php echo $key["content"] ?></div>
-        
+            <div class="text-white content"> <?php echo $key["content"] ?></div>
+
         </li>
       <?php
       };
