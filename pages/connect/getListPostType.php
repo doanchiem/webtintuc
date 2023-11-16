@@ -28,3 +28,21 @@ function getPost($id)
   };
   return $post;
 };
+function getAllPost()
+{
+  $conn = connect();
+  $post = mysqli_query($conn, "SELECT * FROM `baiviet`");
+  if (!$post) {
+    die("thất bại:" . $post);
+  };
+  return $post;
+};
+function getAllPostType()
+{
+  $conn = connect();
+  $postType = mysqli_query($conn, "SELECT * FROM `theloaitin2`");
+  if (!$postType) {
+    die("thất bại:" . $postType);
+  };
+  return $postType;
+};
