@@ -4,17 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/styleadmin.css">
     <title>admin</title>
 </head>
 
 <body>
-    <div>
-        <div>
-            <button>
+    <div id="postTable">
+        <div class="header_menu">
+            <button class="btl">
                 thêm mới bài viết
             </button>
         </div>
-        <div>
+        <div id='main'>
             <table>
                 <thead>
                     <tr>
