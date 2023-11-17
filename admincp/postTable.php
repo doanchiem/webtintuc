@@ -1,5 +1,4 @@
-
-<?php 
+<?php
 include "../pages/connect/getListPostType.php";
 $types = getAllPostType();
 $list = getAllPost();
@@ -23,7 +22,7 @@ $list = getAllPost();
             </button>
         </div>
         <div id='main'>
-            <table  border-collapse="collapse" border-style="solid" >
+            <table border-collapse="collapse" border-style="solid">
                 <thead>
                     <tr>
                         <td>STT</td>
@@ -39,47 +38,50 @@ $list = getAllPost();
                     </tr>
                 </thead>
                 <tbody>
-                    <?php 
+                    <?php
                     $s = 0;
-                   
-                    foreach ($list as $key) { 
-                       
-                        $type=null;
-                       
+
+                    foreach ($list as $key) {
+
+                        $type = null;
+
                         foreach ($types as $k => $value) {
-                           
+
                             if ($key['ID_theloaitin2'] === $value['ID_theloaitin2']) {
-                                $type= $value;
+                                $type = $value;
                                 break;
                             }
-                          }
+                        }
 
-                        ?>
+                    ?>
 
-                      <tr>
-                        <td><?php echo $s?></td>
-                        <td><?php if($type!==null&& $type['tentheloaitin2']){ echo $type['tentheloaitin2']; } ?></td>
-                        <td class='title'><?php echo $key['title']?></td>
-                        <td>   <img class="table_item_img" style="width: 100px;"  src=<?php echo $key["img"] ?> alt="" /></td>
-                        <td class='content'><?php echo $key['content']?></td>
-                        <td>
-                             <button class='edit_btl'>
-                            sửa
-                            </button>
-                        </td>
-                        <td>
-                           <button class='del_btl'>
-                            xóa
-                            </button>
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
+                        <tr>
+                            <td><?php echo $s ?></td>
+                            <td><?php if ($type !== null && $type['tentheloaitin2']) {
+                                    echo $type['tentheloaitin2'];
+                                } ?></td>
+                            <td class='title'><?php echo $key['title'] ?></td>
+                            <td> <img class="table_item_img" style="width: 100px;" src=<?php echo $key["img"] ?> alt="" /></td>
+                            <td class='content'><?php echo $key['content'] ?></td>
+                            <td>
+                            <a href="/webtintuc/admincp/editPost.php?edit=<?php echo $key['ID_baiviet'] ?>" target="_blank">
+                                    <button class='edit_btl'>
+                                        sửa
+                                    </button></a>
+                            </td>
+                            <td>
+                                <button class='del_btl' onclick="deletePost(<?php echo $key['ID_baiviet'] ?>)">
+                                    xóa
+                                </button>
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
 
-                    <?php $s++; }?>
-                    
-              
+                    <?php $s++;
+                    } ?>
+
                 </tbody>
             </table>
         </div>
