@@ -2,7 +2,19 @@
 include "../pages/connect/getListPostType.php";
 $types = getAllPostType();
 $list = getAllPost();
-
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST['delId'])) {
+        echo $_POST['delId'];
+        $result = deletePost(($_POST['delId']));
+        if ($result) {
+            header("Location: ".$_SERVER['PHP_SELF']);
+        exit;
+        } else {
+            echo "<script>alert('Xóa thất bại');</script>";
+        }
+       
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,9 +29,10 @@ $list = getAllPost();
 <body>
     <div id="postTable">
         <div class="header_menu">
-            <button class="btl">
-                thêm mới bài viết
-            </button>
+            <a href="/webtintuc/admincp/editPost.php" target="_blank">
+                <button class="btl">
+                    thêm mới bài viết
+                </button></a>
         </div>
         <div id='main'>
             <table border-collapse="collapse" border-style="solid">
@@ -64,15 +77,16 @@ $list = getAllPost();
                             <td> <img class="table_item_img" style="width: 100px;" src=<?php echo $key["img"] ?> alt="" /></td>
                             <td class='content'><?php echo $key['content'] ?></td>
                             <td>
-                            <a href="/webtintuc/admincp/editPost.php?edit=<?php echo $key['ID_baiviet'] ?>" target="_blank">
+                                <a href="/webtintuc/admincp/editPost.php?edit=<?php echo $key['ID_baiviet'] ?>" target="_blank">
                                     <button class='edit_btl'>
                                         sửa
                                     </button></a>
                             </td>
                             <td>
-                                <button class='del_btl' onclick="deletePost(<?php echo $key['ID_baiviet'] ?>)">
-                                    xóa
-                                </button>
+                                <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+                                    <input type="hidden" name="delId" value="<?php echo $key['ID_baiviet']; ?>">
+                                    <input class='del_btl' type="submit" value="Xóa" name="delete">
+                                </form>
                             </td>
                             <td></td>
                             <td></td>

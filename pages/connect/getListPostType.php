@@ -47,7 +47,6 @@ function getAllPostType()
   return $postType;
 };
 function deletePost($id){
-  echo "This function has been called!";
   $conn = connect();
   $delete = mysqli_query($conn,"DELETE FROM baiviet WHERE `baiviet`.`ID_baiviet` = $id");
   if (!$delete) {

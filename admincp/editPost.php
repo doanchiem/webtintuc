@@ -10,6 +10,32 @@ if (isset($_GET['edit'])) {
     $result = getPost($edit);
     $post = mysqli_fetch_assoc($result);
 }
+
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST['id'])) {
+        $id = $_POST['id']; // Lấy ID bài viết từ form
+    } else {
+        $id = ''; // Set default value for $id
+    }
+    $title = $_POST['title']; // Lấy tiêu đề bài viết từ form
+    $image = $_POST['image']; // Lấy link ảnh từ form
+    $content = $_POST['content']; // Lấy nội dung bài viết từ form
+
+    // Kiểm tra và xử lý dữ liệu đầu vào ở đây để tránh SQL injection
+    $conn = connect(); // Connect to the database
+    $id = mysqli_real_escape_string($conn, $id);
+    $title = mysqli_real_escape_string($conn, $title);
+    $image = mysqli_real_escape_string($conn, $image);
+    $content = mysqli_real_escape_string($conn, $content);
+
+    // Gọi hàm editPost để sửa bài viết
+    if (isset($_GET['edit'])) {
+        editPost($id, $title, $image, $content);
+    } else {
+        createPost($title, $image, $content);
+    }
+} 
 ?>
 
 
