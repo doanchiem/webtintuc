@@ -46,22 +46,24 @@ function getAllPostType()
   };
   return $postType;
 };
-function deletePost($id){
+function deletePost($id)
+{
   $conn = connect();
-  $delete = mysqli_query($conn,"DELETE FROM baiviet WHERE `baiviet`.`ID_baiviet` = $id");
+  $delete = mysqli_query($conn, "DELETE FROM baiviet WHERE `baiviet`.`ID_baiviet` = $id");
   if (!$delete) {
     die("thất bại:" . !$delete);
   }
   return $delete;
 }
-function createPost($title, $image, $content)
+function createPost($IdTheloai, $title, $image, $content)
 {
   $conn = connect();
-  $insert = mysqli_query($conn, "INSERT INTO `baiviet` (`title`, `img`, `content`) VALUES ('$title', '$image', '$content')");
+  $insert = mysqli_query($conn, "INSERT INTO `baiviet` (`ID_theloaitin2`,`title`, `img`, `content`) VALUES ('$IdTheloai','$title', '$image', '$content')");
   if (!$insert) {
     die("thất bại:" . $insert);
   };
-  return $insert;
+  $newPostId = mysqli_insert_id($conn);
+  return $newPostId;
 };
 function editPost($id, $title, $image, $content)
 {

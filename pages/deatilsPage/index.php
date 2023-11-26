@@ -4,6 +4,7 @@ $id = $_GET['postsId'];
 $p = getPost($id);
 $contents = getlistcontent($id);
 
+
 ?>
 <div id="column1">
     <?php
