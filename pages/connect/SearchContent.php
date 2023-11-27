@@ -1,8 +1,6 @@
 <?php
-include "connect.php";
-
-
-function SeachConten($text)
+// include "connect.php";
+function SearchContent($text)
 {
   $conn = connect();
 

@@ -16,14 +16,14 @@ if (isset($_GET['edit'])) {
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['id'])) {
-        $id = $_POST['id']; // Lấy ID bài viết từ form
+        $id = $_POST['id'] ?? ''; // Lấy ID bài viết từ form
     } else {
         $id = ''; // Set default value for $id
     }
-    $title = $_POST['title']; // Lấy tiêu đề bài viết từ form
-    $image = $_POST['image']; // Lấy link ảnh từ form
-    $content = $_POST['content']; // Lấy nội dung bài viết từ form
-    $IdTheloai = $_POST['ID_theloaitin2'];
+    $title = $_POST['title'] ?? ''; // Lấy tiêu đề bài viết từ form
+    $image = $_POST['image'] ?? ''; // Lấy link ảnh từ form
+    $content = $_POST['content'] ?? ''; // Lấy nội dung bài viết từ form
+    $IdTheloai = $_POST['ID_theloaitin2'] ?? '';
     // Kiểm tra và xử lý dữ liệu đầu vào ở đây để tránh SQL injection
     $conn = connect(); // Connect to the database
     $id = mysqli_real_escape_string($conn, $id);
@@ -35,11 +35,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['deleteContent'])) {
         // Thực hiện câu lệnh SQL để xóa nội dung từ cơ sở dữ liệu dựa trên $contentId
         // Sau đó làm mới trang hoặc thực hiện các hành động khác sau khi xóa nội dung
-        $contentId = $_POST['contentId'];
+        $contentId = $_POST['contentId'] ?? '';
         deleteContent($contentId);
         header("Refresh:0");
         exit;
     }
+
     if (isset($_POST['addContent'])) {
         if (isset($_GET['edit'])) {
             editPost($edit, $title, $image, $content);
@@ -62,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
 
             $res =  createPost($IdTheloai, $title, $image, $content);
-            echo $res;
+            // echo $res;
             $Idnoidungbaiviet = $_POST['Idnoidungbaiviet'] ?? [];
             $contentTitle = $_POST['contentTitle'] ?? [];
             $contentImage = $_POST['contentImage'] ?? [];
@@ -80,10 +81,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $contents = getlistcontent($res);
         }
     }
+
     // Gọi hàm editPost để sửa bài viết
     if (isset($_POST['save'])) {
-        if (isset($_GET['edit'])) {
 
+        if (isset($_GET['edit'])) {
             editPost($edit, $title, $image, $content);
             if (!is_null($contents)) {
                 $Idnoidungbaiviet = $_POST['Idnoidungbaiviet'] ?? [];
@@ -96,14 +98,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     updateContent($id, $contentContent[$count] ?? '', $contentImage[$count] ?? '', $contentTitle[$count] ?? '');
                     $count++;
                 }
-                createContent('', '', '', $edit);
+                // createContent('', '', '', $edit);
+                header("Location: editPost.php?edit=$edit");
+
             } else {
-                createContent('', '', '', $edit);
+                // createContent('', '', '', $edit);
             }
         } else {
 
             $res =  createPost($IdTheloai, $title, $image, $content);
-            echo $res;
+            // echo $res;
             $Idnoidungbaiviet = $_POST['Idnoidungbaiviet'] ?? [];
             $contentTitle = $_POST['contentTitle'] ?? [];
             $contentImage = $_POST['contentImage'] ?? [];
@@ -114,6 +118,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $count++;
                 }
             }
+            header("Location: editPost.php?edit=$res");
+
         }
     }
 }
@@ -166,6 +172,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
    
     
         <form class="detail" action='' method='POST'> -->
+
             <div><b>Nội dung chi tiết</b></div>
             <div class="content">
                 <?php
@@ -183,12 +190,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <label for='contentContent'>Nội dung bài viết:</label>
                         <textarea class="content" id='content' name='contentContent[<?php echo $count ?>]'><?php echo  $key['content']  ?></textarea>
                         <br>
-                        <form method="post" action="">
+                        
                             <div class="delbtl">
                                 <input type="hidden" name="contentId" value="<?php echo $key['ID_noidungbaiviet']; ?>">
                                 <button class="btl del" type="submit" name="deleteContent">➖</button>
                             </div>
-                        </form>
+                        <!-- </form> -->
                         <hr />
                 <?php $count++;
                     }
@@ -199,9 +206,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </button>
 
             </div>
-            <button name="save" class="btl save" type='submit'>
+
+            <button name="save" class="btl save" type='submit' >
                 <?php echo ($edit) ? "Cập nhật" : "Thêm mới"; ?>
             </button>
+
         </form>
     </div>
 

@@ -36,7 +36,7 @@ if (isset($_GET['main'])) {
       <form action="index.php" method="get">
         <fieldset>
           <legend>từ khóa tìm kiếm</legend>
-          <input name='seach' type="text" placeholder="từ khóa tìm kiếm&hellip;" />
+          <input name='search' type="text" placeholder="từ khóa tìm kiếm&hellip;" />
           <button type="submit" id="go">
             Tìm kiếm
           </button>

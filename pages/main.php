@@ -1,5 +1,7 @@
 <?php
 include "./connect/getListPostType.php";
+include "./connect/SearchContent.php";
+
 ?>
 <div class="wrapper col4" style='display:flex;'>
   <div id="container">
@@ -14,15 +16,15 @@ include "./connect/getListPostType.php";
     if (isset($_GET['postsId'])) {
       $postId =  $_GET['postsId'];
     }
-    $seach = null;
-    if (isset($_GET['seach'])) {
-      $seach = $_GET['seach'];
+    $search = null;
+    if (isset($_GET['search'])) {
+      $search = $_GET['search'];
     }
     // Include the appropriate PHP file based on the path
     if ($postId !== null) {
       include("deatilsPage/index.php");
-    } elseif ($seach !== null) {
-      include("main/seach.php");
+    } elseif ($search !== null) {
+      include("main/search.php");
     } elseif ($tam == 'kinhnghiem') {
       include("main/kinhnghiem.php");
     } elseif ($tam == 'amthuc') {
