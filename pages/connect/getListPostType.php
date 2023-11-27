@@ -74,3 +74,30 @@ function editPost($id, $title, $image, $content)
   };
   return $update;
 };
+function createContent($content,$img, $title, $postId){
+  $conn = connect();
+  $insert = mysqli_query($conn, "INSERT INTO `noidungbaiviet`( `content`, `img`, `title`, `ID_baiviet`) VALUES ('$content','$img','$title','$postId')");
+  if (!$insert) {
+    die("thất bại:" . $insert);
+  };
+  $newPostId = mysqli_insert_id($conn);
+  return $newPostId;
+}
+function updateContent($id,$content,$img, $title){
+  $conn = connect();
+  $insert = mysqli_query($conn, "UPDATE `noidungbaiviet` SET `content`='$content',`img`='$img',`title`='$title' WHERE `ID_noidungbaiviet`='$id' ");
+  if (!$insert) {
+    die("thất bại:" . $insert);
+  };
+  // $newPostId = mysqli_insert_id($conn);
+   return  $insert;
+}
+function deleteContent($id)
+{
+  $conn = connect();
+  $delete = mysqli_query($conn, "DELETE FROM `noidungbaiviet` WHERE `ID_noidungbaiviet` = '$id'");
+  if (!$delete) {
+    die("thất bại:" . !$delete);
+  }
+  return $delete;
+}

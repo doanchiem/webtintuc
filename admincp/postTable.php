@@ -45,9 +45,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <td class='content'>nội dung</td>
                         <td>sửa</td>
                         <td>xóa</td>
+                        <!-- <td></td>
                         <td></td>
-                        <td></td>
-                        <td></td>
+                        <td></td> -->
                     </tr>
                 </thead>
                 <tbody>
@@ -88,9 +88,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <input class='del_btl' type="submit" value="Xóa" name="delete">
                                 </form>
                             </td>
+                            <!-- <td></td>
                             <td></td>
-                            <td></td>
-                            <td></td>
+                            <td></td> -->
                         </tr>
 
                     <?php $s++;

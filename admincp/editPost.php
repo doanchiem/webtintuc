@@ -11,7 +11,7 @@ $contents = null;
 if (isset($_GET['edit'])) {
     $result = getPost($edit);
     $post = mysqli_fetch_assoc($result);
-    $contents = getlistcontent(9);
+    $contents = getlistcontent($edit);
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -31,12 +31,90 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $image = mysqli_real_escape_string($conn, $image);
     $content = mysqli_real_escape_string($conn, $content);
     $IdTheloai = mysqli_real_escape_string($conn, $IdTheloai);
+
+    if (isset($_POST['deleteContent'])) {
+        // Thực hiện câu lệnh SQL để xóa nội dung từ cơ sở dữ liệu dựa trên $contentId
+        // Sau đó làm mới trang hoặc thực hiện các hành động khác sau khi xóa nội dung
+        $contentId = $_POST['contentId'];
+        deleteContent($contentId);
+        header("Refresh:0");
+        exit;
+    }
+    if (isset($_POST['addContent'])) {
+        if (isset($_GET['edit'])) {
+            editPost($edit, $title, $image, $content);
+            if (!is_null($contents)) {
+                $Idnoidungbaiviet = $_POST['Idnoidungbaiviet'] ?? [];
+                $contentTitle = $_POST['contentTitle'] ?? [];
+                $contentImage = $_POST['contentImage'] ?? [];
+                $contentContent = $_POST['contentContent'] ?? [];
+
+                $count = 0;
+                foreach ($Idnoidungbaiviet as $id) {
+                    updateContent($id, $contentContent[$count] ?? '', $contentImage[$count] ?? '', $contentTitle[$count] ?? '');
+                    $count++;
+                }
+                createContent('', '', '', $edit);
+            } else {
+                createContent('', '', '', $edit);
+            }
+            $contents = getlistcontent($edit);
+        } else {
+
+            $res =  createPost($IdTheloai, $title, $image, $content);
+            echo $res;
+            $Idnoidungbaiviet = $_POST['Idnoidungbaiviet'] ?? [];
+            $contentTitle = $_POST['contentTitle'] ?? [];
+            $contentImage = $_POST['contentImage'] ?? [];
+            $contentContent = $_POST['contentContent'] ?? [];
+            if (!empty($Idnoidungbaiviet)) {
+                foreach ($Idnoidungbaiviet as $id) {
+                    createContent($contentContent[$count] ?? '', $contentImage[$count] ?? '', $contentTitle[$count] ?? '', $res);
+                    $count++;
+                }
+            } else {
+                createContent('', '', '',  $res);
+                header("Location: editPost.php?edit=$res");
+            }
+
+            $contents = getlistcontent($res);
+        }
+    }
     // Gọi hàm editPost để sửa bài viết
-    if (isset($_GET['edit'])) {
-        editPost($id, $title, $image, $content);
-    } else {
-        $res =  createPost($IdTheloai, $title, $image, $content);
-        echo $res;
+    if (isset($_POST['save'])) {
+        if (isset($_GET['edit'])) {
+
+            editPost($edit, $title, $image, $content);
+            if (!is_null($contents)) {
+                $Idnoidungbaiviet = $_POST['Idnoidungbaiviet'] ?? [];
+                $contentTitle = $_POST['contentTitle'] ?? [];
+                $contentImage = $_POST['contentImage'] ?? [];
+                $contentContent = $_POST['contentContent'] ?? [];
+
+                $count = 0;
+                foreach ($Idnoidungbaiviet as $id) {
+                    updateContent($id, $contentContent[$count] ?? '', $contentImage[$count] ?? '', $contentTitle[$count] ?? '');
+                    $count++;
+                }
+                createContent('', '', '', $edit);
+            } else {
+                createContent('', '', '', $edit);
+            }
+        } else {
+
+            $res =  createPost($IdTheloai, $title, $image, $content);
+            echo $res;
+            $Idnoidungbaiviet = $_POST['Idnoidungbaiviet'] ?? [];
+            $contentTitle = $_POST['contentTitle'] ?? [];
+            $contentImage = $_POST['contentImage'] ?? [];
+            $contentContent = $_POST['contentContent'] ?? [];
+            if (!empty($Idnoidungbaiviet)) {
+                foreach ($Idnoidungbaiviet as $id) {
+                    createContent($contentContent[$count] ?? '', $contentImage[$count] ?? '', $contentTitle[$count] ?? '', $res);
+                    $count++;
+                }
+            }
+        }
     }
 }
 ?>
@@ -61,48 +139,68 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <?php echo $status; ?>
         </h1>
         <form name='mainArticle' class="from" action='' method='POST'>
-            <label for='title'>Loại bài viết:</label>
-            <select name='ID_theloaitin2'><?php foreach ($types as $type) { ?>
-                    <option <?php echo ($edit && $post && $post['ID_theloaitin2'] == $type['ID_theloaitin2']) ? 'selected' : ''; ?> value="<?php echo $type['ID_theloaitin2']; ?>">
-                        <?php echo $type['tentheloaitin2']; ?>
-                    </option>
-                <?php } ?>
-            </select>
-            <br />
-            <label for='title'>Tên bài viết:</label>
-            <input required class="title" type='text' id='title' name='title' value="<?php echo ($edit && $post) ? $post['title'] : ''; ?>">
-            <br>
-            <label for='image'>Link ảnh:</label>
-            <input required class="image" type='text' id='image' name='image' value="<?php echo ($edit && $post) ? $post['img'] : ''; ?>">
-            <br>
-            <label for='content'>Nội dung bài viết:</label>
-            <textarea required class="content" id='content' name='content'><?php echo ($edit && $post) ? $post['content'] : ''; ?></textarea>
-            <br>
-            <button class="btl" type='submit'>
-                <?php echo $status ?>
-            </button>
-
-
-        </form>
-   
-    
-        <form class="detail" action='' method='POST'>
-            <?php
-           if (!is_null($contents) ) {
-            foreach ($contents as $key) {  ?>
-                <label for='title'>Tiêu đề</label>
-                <input required class="title" type='text' id='title' name='title' value="<?php echo $key['title'] ?>">
+            <div class="postDetail">
+                <label for='ID_theloaitin2'>Loại bài viết:</label>
+                <select name='ID_theloaitin2'><?php foreach ($types as $type) { ?>
+                        <option <?php echo ($edit && $post && $post['ID_theloaitin2'] == $type['ID_theloaitin2']) ? 'selected' : ''; ?> value="<?php echo $type['ID_theloaitin2']; ?>">
+                            <?php echo $type['tentheloaitin2']; ?>
+                        </option>
+                    <?php } ?>
+                </select>
+                <br>
+                <br>
+                <label for='title'>Tên bài viết:</label>
+                <input required class="title" type='text' id='title' name='title' value="<?php echo ($edit && $post) ? $post['title'] : ''; ?>">
                 <br>
                 <label for='image'>Link ảnh:</label>
-                <input required class="image" type='text' id='image' name='image' value="<?php echo  $key['img']  ?>">
+                <input required class="image" type='text' id='image' name='image' value="<?php echo ($edit && $post) ? $post['img'] : ''; ?>">
                 <br>
                 <label for='content'>Nội dung bài viết:</label>
-                <textarea required class="content" id='content' name='content'><?php echo  $key['content']  ?></textarea>
+                <textarea required class="content" id='content' name='content'><?php echo ($edit && $post) ? $post['content'] : ''; ?></textarea>
                 <br>
-                <hr/>
-            <?php }}   ?>
-            <button class="btl" type='submit'>
-               Lưu
+            </div>
+
+
+
+            <!-- </form>
+   
+    
+        <form class="detail" action='' method='POST'> -->
+            <div><b>Nội dung chi tiết</b></div>
+            <div class="content">
+                <?php
+                if (!is_null($contents)) {
+                    $count = 0;
+
+                    foreach ($contents as $key) {  ?>
+                        <input type="text" name="Idnoidungbaiviet[<?php echo $count ?>]" hidden value="<?php echo $key['ID_noidungbaiviet'] ?>">
+                        <label for='contentTitle[<?php echo $count ?>]'>Tiêu đề</label>
+                        <input class="title" type='text' id='title' name='contentTitle[<?php echo $count ?>]' value="<?php echo $key['title'] ?>">
+                        <br>
+                        <label for='contentImage'>Link ảnh:</label>
+                        <input class="image" type='text' id='image' name='contentImage[<?php echo $count ?>]' value="<?php echo  $key['img']  ?>">
+                        <br>
+                        <label for='contentContent'>Nội dung bài viết:</label>
+                        <textarea class="content" id='content' name='contentContent[<?php echo $count ?>]'><?php echo  $key['content']  ?></textarea>
+                        <br>
+                        <form method="post" action="">
+                            <div class="delbtl">
+                                <input type="hidden" name="contentId" value="<?php echo $key['ID_noidungbaiviet']; ?>">
+                                <button class="btl del" type="submit" name="deleteContent">➖</button>
+                            </div>
+                        </form>
+                        <hr />
+                <?php $count++;
+                    }
+                }   ?>
+
+                <button name='addContent' class="btl" type='submit'>
+                    ➕
+                </button>
+
+            </div>
+            <button name="save" class="btl save" type='submit'>
+                <?php echo ($edit) ? "Cập nhật" : "Thêm mới"; ?>
             </button>
         </form>
     </div>
