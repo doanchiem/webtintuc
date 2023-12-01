@@ -76,10 +76,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $filename = $uniqueString .  str_replace(' ', '', $_FILES["image"]["name"]);
             $file = $_FILES["image"]["tmp_name"];
             update_image($file, $filename);
-          
+
             $res =  createPost($IdTheloai, $title,  $filename, $content); // tạo bài viết
             createContent('', '', '',  $res);
-                header("Location: editPost.php?edit=$res");
+            header("Location: editPost.php?edit=$res");
 
             $contents = getlistcontent($res);
         }
@@ -88,15 +88,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Gọi hàm editPost để sửa bài viết
     if (isset($_POST['save'])) {
         // Lấy tên tệp đã tải lên
-        $uniqueString = uniqid();
-        $filename = $uniqueString .  str_replace(' ', '', $_FILES["image"]["name"]);
-        $file = $_FILES["image"]["tmp_name"];
-        update_image($file, $filename);
+
 
         if (isset($_GET['edit'])) {
 
-
-            editPost($edit, $title, $filename, $content);
+            if ($_FILES["image"]["name"] !== '') {
+                $uniqueString = uniqid();
+                $filename = $uniqueString .  str_replace(' ', '', $_FILES["image"]["name"]);
+                $file = $_FILES["image"]["tmp_name"];
+                update_image($file, $filename);
+                editPost($edit, $title, $filename, $content);
+            } else {
+                editPost($edit, $title, $oldImage, $content);
+            }
             if (!is_null($contents)) {
                 $Idnoidungbaiviet = $_POST['Idnoidungbaiviet'] ?? [];
                 $contentTitle = $_POST['contentTitle'] ?? [];
@@ -129,10 +133,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $filename = $uniqueString .  str_replace(' ', '', $_FILES["image"]["name"]);
                 $file = $_FILES["image"]["tmp_name"];
                 update_image($file, $filename);
+                echo $filename;
+                die;
                 $res =  createPost($IdTheloai, $title, $filename, $content);
             } else {
-                $res =  createPost($IdTheloai, $title, '', $content);
-                 echo $res;
+                $res =  createPost($IdTheloai, $title,  $oldImage, $content);
+                echo $res;
                 // $Idnoidungbaiviet = $_POST['Idnoidungbaiviet'] ?? [];
                 // $contentTitle = $_POST['contentTitle'] ?? [];
                 // $contentImage = $_POST['contentImage'] ?? [];
