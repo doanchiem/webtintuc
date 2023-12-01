@@ -28,12 +28,11 @@
 
 #main table {
   width: 100%;
-  border-spacing: 0;
-  border: 1px;
-  background-color: white;
-  /* border-radius: 10px; */
-  border-left: 1px solid;
-  border-bottom: 1px solid;
+    border-spacing: 0;
+    background-color: white;
+    /* border-radius: 10px; */
+    border: 1px solid;
+    border-collapse: collapse;
 }
 #main table thead tr td {
   text-align: center;
@@ -50,6 +49,7 @@
 
 #main table tbody tr td {
   border-bottom: 1px dashed;
+  height:110px;
 }
 #main table .table_item_img {
   max-width: 100px;
@@ -68,6 +68,9 @@
 }
 
 #main {
+  .items-center{
+    text-align: center;
+  }
   .del_btl,
   .edit_btl {
     background-color: #f87171;
@@ -87,7 +90,7 @@
   flex-direction: column;
   align-items: center;
   width: 100vw;
-  padding:20px;
+  padding: 20px;
 }
 .editPost form label {
   display: inline-block;
@@ -117,13 +120,24 @@
 }
 
 .editPost .content {
-  .delbtl{
-    display:flex;
+  .delbtl {
+    display: flex;
     width: 100%;
     justify-content: flex-end;
-  .del {
-  background-color: #f87171;
-  padding: 5px;
-  border:none !important;
- 
-}}}
+    .del {
+      background-color: #f87171;
+      padding: 5px;
+      border: none !important;
+    }
+  }
+}
+.editPost {
+  .imgGroup {
+    display:flex;
+    flex-direction: column;
+    .preview {
+      /* max-height: 100px; */
+      max-width: 200px;
+    }
+  }
+}

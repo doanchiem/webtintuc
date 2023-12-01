@@ -92,12 +92,3 @@ function updateContent($id,$content,$img, $title){
   // $newPostId = mysqli_insert_id($conn);
    return  $insert;
 }
-function deleteContent($id)
-{
-  $conn = connect();
-  $delete = mysqli_query($conn, "DELETE FROM `noidungbaiviet` WHERE `ID_noidungbaiviet` = '$id'");
-  if (!$delete) {
-    die("thất bại:" . !$delete);
-  }
-  return $delete;
-}

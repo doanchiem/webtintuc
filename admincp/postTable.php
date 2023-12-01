@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <div id="postTable">
         <div class="header_menu">
-            <a href="/webtintuc/admincp/editPost.php" target="_blank">
+            <a href="/webtintuc/admincp/editPost/editPost.php" target="_blank">
                 <button class="btl">
                     thêm mới bài viết
                 </button></a>
@@ -69,20 +69,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     ?>
 
                         <tr>
-                            <td><?php echo $s ?></td>
+                            <td class="items-center"><?php echo $s +1 ?></td>
                             <td><?php if ($type !== null && $type['tentheloaitin2']) {
                                     echo $type['tentheloaitin2'];
                                 } ?></td>
                             <td class='title'><?php echo $key['title'] ?></td>
-                            <td> <img class="table_item_img" style="width: 100px;" src=<?php echo $key["img"] ?> alt="" /></td>
+                            <td class="items-center"> <img class="table_item_img" style="width: 100px;" src=<?php echo $key["img"] ?> alt="" /></td>
                             <td class='content'><?php echo $key['content'] ?></td>
-                            <td>
-                                <a href="/webtintuc/admincp/editPost.php?edit=<?php echo $key['ID_baiviet'] ?>" target="_blank">
+                            <td class="items-center">
+                                <a href="/webtintuc/admincp/editPost/editPost.php?edit=<?php echo $key['ID_baiviet'] ?>" target="_blank">
                                     <button class='edit_btl'>
                                         sửa
                                     </button></a>
                             </td>
-                            <td>
+                            <td class="items-center">
                                 <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
                                     <input type="hidden" name="delId" value="<?php echo $key['ID_baiviet']; ?>">
                                     <input class='del_btl' type="submit" value="Xóa" name="delete">
