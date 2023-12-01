@@ -14,7 +14,16 @@
 .header_menu {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 20px;
+  position: fixed;
+  background-color: #f0f9ff;
+  top:0;
+  left:0;
+  padding: 30px;
+width: 100%;
+  .del_btl{
+    margin-left:10px;
+    background-color: #f87171;
+  }
 }
 /*  */
 .btl {
@@ -25,7 +34,9 @@
 }
 
 /* table */
-
+#main {
+  margin-top:80px;
+}
 #main table {
   width: 100%;
     border-spacing: 0;
@@ -58,6 +69,12 @@
 
 #main table thead tr .content {
   max-width: 200px;
+}
+#main table tbody {
+  #checkbox{
+    width: 20px;
+    height: 20px;
+  }
 }
 #main table tbody tr .content,
 #main table .title {

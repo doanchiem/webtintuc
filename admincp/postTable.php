@@ -7,14 +7,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo $_POST['delId'];
         $result = deletePost(($_POST['delId']));
         if ($result) {
-            header("Location: ".$_SERVER['PHP_SELF']);
-        exit;
+            header("Location: " . $_SERVER['PHP_SELF']);
+            exit;
         } else {
             echo "<script>alert('Xóa thất bại');</script>";
         }
-       
     }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,11 +33,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <button class="btl">
                     thêm mới bài viết
                 </button></a>
+            <button onclick="delAll()" type="button" class="btl del_btl">
+                xóa bài viết
+            </button>
         </div>
         <div id='main'>
             <table border-collapse="collapse" border-style="solid">
                 <thead>
                     <tr>
+                        <td></td>
                         <td>STT</td>
                         <td>thể loại bài viết</td>
                         <td>tiêu đề</td>
@@ -69,12 +73,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     ?>
 
                         <tr>
-                            <td class="items-center"><?php echo $s +1 ?></td>
+                            <td class="items-center"><input type="checkbox" name="" id="checkbox" onchange="addToList(<?php echo $key['ID_baiviet']; ?>)"></td>
+                            <td class="items-center"><?php echo $s + 1 ?></td>
                             <td><?php if ($type !== null && $type['tentheloaitin2']) {
                                     echo $type['tentheloaitin2'];
                                 } ?></td>
                             <td class='title'><?php echo $key['title'] ?></td>
-                            <td class="items-center"> <img class="table_item_img" style="width: 100px;" src=<?php echo $key["img"] ?> alt="" /></td>
+                            <td class="items-center"> <img class="table_item_img" style="width: 100px;" src=<?php echo '/webtintuc/images/' . $key["img"] ?> alt="" /></td>
                             <td class='content'><?php echo $key['content'] ?></td>
                             <td class="items-center">
                                 <a href="/webtintuc/admincp/editPost/editPost.php?edit=<?php echo $key['ID_baiviet'] ?>" target="_blank">
@@ -100,6 +105,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </table>
         </div>
     </div>
+    <script>
+        const listId = []
+
+        function addToList(id) {
+            if (!listId.includes(id)) {
+                listId.push(id)
+            } else {
+                const index = listId.indexOf(id)
+                listId.splice(index, 1)
+            }
+            console.log(listId)
+        }
+
+        function delAll() {
+            const data = {
+                action: 'delete-all',
+                ids: listId
+            }
+            fetch('./delPost.php', {
+                    method: 'POST',
+                    headers: {
+
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    body: JSON.stringify(data),
+                })
+                .then(response => {
+                    // Xử lý phản hồi từ máy chủ
+                    console.log(response);
+                    return response.text();
+                })
+                .then(data => {
+                    console.log('data', data);
+                    location.reload();
+                })
+                .catch(error => {
+                    console.log('error', error);
+                    // Xử lý lỗi trong quá trình gửi yêu cầu AJAX
+                });
+        }
+    </script>
 </body>
 
 </html>
