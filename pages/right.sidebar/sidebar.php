@@ -7,7 +7,7 @@
       <li>
         <a class="text-white " style="color: white;" href=<?php echo 'index.php?main=tokyo&postsId=' . $key['ID_baiviet'] ?>>
           <div class="card_">
-            <img class="food" src=<?php echo $key["img"] ?> alt="" />
+            <img class="food" src="<?php echo '/webtintuc/images/' . $key["img"] ?>" alt="" />
             <div class='titel'> <b><?php echo $key["title"] ?>
               </b></div>
           </div>

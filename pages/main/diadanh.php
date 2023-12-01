@@ -7,7 +7,7 @@
         $list = getListPostType(9);
         foreach ($list as $key) { ?>
 
-            <li><img class="tokyo" src=<?php echo $key["img"] ?> alt="" />
+            <li><img class="tokyo" src="<?php echo '/webtintuc/images/' . $key["img"] ?>" alt="" />
                 <p><strong><a href="#">
                             <?php echo $key["title"] ?>
                         </a></strong></p>

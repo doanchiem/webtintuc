@@ -10,7 +10,7 @@
 
                 <li>
                     <a href=<?php echo 'index.php?main=hanquoc&postsId=' . $key['ID_baiviet'] ?>>
-                        <img class="hanquocPhoto" src=<?php echo $key["img"] ?> alt="" />
+                        <img class="hanquocPhoto" src="<?php echo '/webtintuc/images/' . $key["img"] ?>" alt="" />
                         <p><strong>
                                 <?php echo $key["title"] ?>
                             </strong></p>

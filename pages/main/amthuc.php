@@ -8,7 +8,7 @@
         foreach ($list as $key) { ?>
             <a href=<?php echo 'index.php?main=amthuc&postsId=' . $key['ID_baiviet'] ?>>
 
-                <li><img class="deital" src=<?php echo $key["img"] ?> alt="" />
+                <li><img class="deital" src="<?php echo '/webtintuc/images/' . $key["img"] ?>" alt="" />
                     <p><strong><a>
                                 <?php echo $key["title"] ?>
                             </a></strong></p>

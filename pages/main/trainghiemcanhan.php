@@ -10,7 +10,7 @@
 
             <li>
                 <a class="text-white " style="color: white;" href=<?php echo 'index.php?main=tokyo&postsId=' . $key['ID_baiviet'] ?>>
-                    <img class="PhotoNhatban" src=<?php echo $key["img"] ?> alt="" />
+                    <img class="PhotoNhatban" src="<?php echo '/webtintuc/images/' . $key["img"] ?>" alt="" />
                     <p><strong><a href="#">
                                 <?php echo $key["title"] ?>
                             </a></strong></p>
